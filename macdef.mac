@@ -1,0 +1,89 @@
+*		PRAGMA	nodollarlocal
+
+Anrop		MACRO	
+\1		*
+		EXPORT	\1
+		ENDM
+
+NewLine		MACRO
+		FCB	CR,LF
+		ENDM
+
+NewLineEnd	MACRO
+		FCB	CR,LF,End
+		ENDM
+
+*.$Text		MACRO
+*		FCC	\*
+*		FCB	CR,LF
+*		ENDM
+*
+*.$TextEnd	MACRO
+*		FCC	\*
+*		FCB	CR,LF,End
+*		ENDM
+*
+*.$Line		MACRO
+*		FCC	\*
+*		FCB	End
+*		ENDM
+
+CMDTAB		MACRO
+		FDB	\1-EPROM_code,\2-EPROM_code,\3-EPROM_code
+		ENDM
+
+CMDLIST		MACRO
+		FCB	\1,\2
+		FDB	\3-EPROM_code,\4-EPROM_code
+		ENDM
+		
+*		Macro to handle diffrent data-segment
+*============================================================
+*ZPAGE		MACRO
+*		ORG	ZPAGE_current
+*		ENDM
+*
+*ZPAGEend	MACRO
+*ZPAGE_current	SET	*
+*		ENDM
+*		
+*---------------
+*DATA		MACRO
+*		ORG	DATA_current
+*		ENDM
+*
+*DATAend		MACRO
+*DATA_current	SET	*
+*		ENDM
+*
+*		
+*---------------
+*CODE		MACRO
+*		ORG	CODE_current
+*		ENDM
+*
+*CODEend		MACRO
+*CODE_current	SET	*
+*		ENDM
+*
+*.DEFINE		MACRO
+*		ENDM
+*
+*.DEFINE_end	MACRO
+*		ENDM
+*
+*.DIRECTP	MACRO
+*		ORG	ZPAGE_current
+*		ENDM
+*
+*.DIRECTP_end	MACRO
+*ZPAGE_current	SET	*
+*		ENDM
+*
+*.DATA		MACRO
+*		ORG	DATA_current
+*		ENDM
+*
+*.DATA_end	MACRO
+*DATA_current	SET	*
+*		ENDM
