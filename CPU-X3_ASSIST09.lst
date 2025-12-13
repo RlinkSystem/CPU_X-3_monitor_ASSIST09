@@ -287,7 +287,7 @@ FFFE                  CLR_Carry       EQU     ~CC_C           ; $FE
                       *---------------------------------------------------------------------
                       *               ZeroPage section
                       *---------------================----------------
-F181                                  RAM
+F189                                  RAM
                       *               Memory start
                       *               ============
 DF00                                  ORG     SYSRAM
@@ -327,9 +327,9 @@ E016                                  INCLUDE         /basic.asm/
                       *       REVISED 08-APR-82 MAKE STANDALONE INCLUDE HEX CONSTANTS AND MEM FUNCTION
                       *       REVISED 21-NOV-84 FOR 6809
                       *       REVISED FEB 94 ADAPTED TO SIMULATOR AND BUGFIXES BY L.C. BENSCHOP.
-                      *       Adoptet for MDLX-3 / fre  5 mar 2021 18:02:12 CET
-                      *       Adoptet for CXCMD, CPU X-3 Command Monitor / Fri Feb  7 19:10:42 CET 2025
-                      *       Adoptet for ASSIST09 on CPU X-3 SBC / Sat Dec  6 14:51:50 CET 2025
+                      *       Adopted for MDLX-3 / fre  5 mar 2021 18:02:12 CET
+                      *       Adopted for CXCMD, CPU X-3 Command Monitor / Fri Feb  7 19:10:42 CET 2025
+                      *       Adopted for ASSIST09 on CPU X-3 SBC / Sat Dec  6 14:51:50 CET 2025
                       *
                       
                       *               Interna Defines
@@ -424,7 +424,7 @@ E016                  \1              *
                                       EXPORT  \1
 E016  2008                            BRA     SETUP
 E018  10DE08          WARMS           LDS     STKTOP
-E01B  17087D                          LBSR    INTEEE
+E01B  17088E                          LBSR    INTEEE
 E01E  2016                            BRA     WMS05
                       ; SETUP         LDS     #RAMEND-52
 E020  DC00            SETUP           LDD     RAMSIZE
@@ -432,7 +432,7 @@ E022  830034                          SUBD    #52
 E025  1F04                            TFR     D,S
                       
 E027  10DF08          SET03           STS     STKTOP
-E02A  17086E                          LBSR    INTEEE
+E02A  17087F                          LBSR    INTEEE
                       *
 E02D  CC0149          CLEAR           LDD     #RAMBEG
 E030  DD02                            STD     USRBAS
@@ -452,7 +452,7 @@ E04E  9F0E                            STX     LINENB
 E050  0D15                            TST     TapeMODE        ; Paper Tape mode ?
 E052  2605                            BNE     CMD01           ; Yes, skip cmd-prompt
 E054  863E                            LDA     #'>             ; cmd-prompt...
-E056  17083E                          LBSR    PUTCHR          ; print...
+E056  17084F                          LBSR    PUTCHR          ; print...
                       *
 E059  170188          CMD01           LBSR    GETLIN          ; Get Line in
 E05C  1702D2                          LBSR    TSTNBR          ; Test for Number
@@ -571,7 +571,7 @@ E14B  26F0                    BNE     ED10
 E14D  39                      RTS
                       ******************************
                       ******************************
-E14E  BDE897          PUTS01  JSR     PUTCHR
+E14E  BDE8A8          PUTS01  JSR     PUTCHR
 E151  3001                    LEAX    1,X
 E153  A684            PUTSTR  LDA     0,X
 E155  8104                    CMPA    #EOL
@@ -631,11 +631,11 @@ E1C4  04                              FCB     EOL
                       *
 E1C5  8D93            PrintError      BSR     CRLF
 E1C7  8607                            LDA     #BEL
-E1C9  BDE897                          JSR     PUTCHR
+E1C9  BDE8A8                          JSR     PUTCHR
 E1CC  DC0E                            LDD     <LINENB
 E1CE  BDE6A6                          JSR     PRNT4
 E1D1  8620                            LDA     #SPACE
-E1D3  BDE897                          JSR     PUTCHR
+E1D3  BDE8A8                          JSR     PUTCHR
 E1D6  3510                            PULS    X
 E1D8  17FF78                          LBSR    PUTSTR
 E1DB  17FF7C                          LBSR    CRLF
@@ -645,7 +645,7 @@ E1DE  7EE03F                          JMP     CMDB
                       ******************************
 E1E1  17FF76          GL00            LBSR    CRLF
 E1E4  8E0100          GETLIN          LDX     #BUFFER         ; Get Start of input buffert
-E1E7  BDE886          NextCharIn      JSR     GETCHR          ; Get a char in
+E1E7  BDE897          NextCharIn      JSR     GETCHR          ; Get a char in
 E1EA  8120                            CMPA    #SPACE          ; Compare with <SPACE>
 E1EC  2514                            BCS     GL05            ; Less than - <CTRL>-char
 E1EE  817F                            CMPA    #DEL            ; <DEL> ?
@@ -655,7 +655,7 @@ E1F5  2604                            BNE     GL04            ;  No
 E1F7  8607                            LDA     #BEL            ; <PLING>
 E1F9  2002                            BRA     EchoCharIn      ; write
 E1FB  A780            GL04            STA     ,X+             ; Save char in input buffert
-E1FD  BDE897          EchoCharIn      JSR     PUTCHR          ; Echo Char
+E1FD  BDE8A8          EchoCharIn      JSR     PUTCHR          ; Echo Char
 E200  20E5                            BRA     NextCharIn      ; Next Char
                       *
 E202  8108            GL05            CMPA    #BS             ; <BackSpace> ?
@@ -683,9 +683,9 @@ E21D  8C0100          BackSpaceB      CMPX    #BUFFER         ; At buffert start
 E220  27C5                            BEQ     NextCharIn      ;  Yes
 E222  301F                            LEAX    -1,X            ; Go one step back in buffert
 E224  8608                            LDA     #BS
-E226  BDE897                          JSR     PUTCHR          ; Step back on screen
+E226  BDE8A8                          JSR     PUTCHR          ; Step back on screen
 E229  8620                            LDA     #SPACE
-E22B  BDE897                          JSR     PUTCHR          ; Clear char on screen
+E22B  BDE8A8                          JSR     PUTCHR          ; Clear char on screen
 E22E  8608                            LDA     #BS             ; Go back again
 E230  20CB                            BRA     EchoCharIn
                       *
@@ -708,7 +708,7 @@ E24B  2603                    BNE     NXTLIN
 E24D  7EE1AE                  JMP     ERRORR
 E250  EC81            NXTLIN  LDD     ,X++
 E252  DD0E                    STD     LINENB
-E254  17061B          MSLINE  LBSR    TestBreak
+E254  17062C          MSLINE  LBSR    TestBreak
 E257  8D08                    BSR     IFAN
 E259  2503                    BCS     IMPLET
 E25B  3406                    PSHS    D
@@ -718,7 +718,7 @@ E25E  7EE58A          IMPLET  JMP     LET
                       ******************************
 E261  8D3F            IFAN    BSR     SKIPSP
 E263  9F0A                    STX     CURSOR
-E265  8EE799                  LDX     #VERBT
+E265  8EE7AA                  LDX     #VERBT
 E268  A680            FAN00   LDA     ,X+
 E26A  8104                    CMPA    #EOL
 E26C  2605                    BNE     FAN04
@@ -926,47 +926,47 @@ E3A5  1A03                            ORCC    #SET_Carry|SET_Overflow
 E3A7  39                              RTS
                       ******************************
                       ******************************
-E3A8  10DF0C          TSTSTK  STS     SAVESP
-E3AB  DC0C                    LDD     SAVESP
-E3AD  830030                  SUBD    #STKCUS
-E3B0  9306                    SUBD    STKLIM
-E3B2  39                      RTS
+E3A8  10DF0C          TSTSTK          STS     SAVESP
+E3AB  DC0C                            LDD     SAVESP
+E3AD  830030                          SUBD    #STKCUS
+E3B0  9306                            SUBD    STKLIM
+E3B2  39                              RTS
                       ******************************
                       ******************************
-E3B3  BDE545          PEEK    JSR     PAREXP
-E3B6  3406                    PSHS    D
-E3B8  3410                    PSHS    X
-E3BA  E6F802                  LDB     [2,S]
-E3BD  3510                    PULS    X
-E3BF  3262                    LEAS    2,S
-E3C1  4F                      CLRA
-E3C2  39                      RTS
+E3B3  BDE545          PEEK            JSR     PAREXP
+E3B6  3406                            PSHS    D
+E3B8  3410                            PSHS    X
+E3BA  E6F802                          LDB     [2,S]
+E3BD  3510                            PULS    X
+E3BF  3262                            LEAS    2,S
+E3C1  4F                              CLRA
+E3C2  39                              RTS
                       ******************************
                       ******************************
-E3C3  BDE545          POKE    JSR     PAREXP
-E3C6  3406                    PSHS    D
-E3C8  BDE2A2                  JSR     SKIPSP
-E3CB  813D                    CMPA    #'=
-E3CD  2703                    BEQ     POKE05
-E3CF  7EE183                  JMP     POKEERRORS
+E3C3  BDE545          POKE            JSR     PAREXP
+E3C6  3406                            PSHS    D
+E3C8  BDE2A2                          JSR     SKIPSP
+E3CB  813D                            CMPA    #'=
+E3CD  2703                            BEQ     POKE05
+E3CF  7EE183                          JMP     POKEERRORS
                       *
-E3D2  3001            POKE05  LEAX    1,X
-E3D4  BDE48B                  JSR     EXPR
-E3D7  BDE579                  JSR     TSTEOL
-E3DA  3410                    PSHS    X
-E3DC  E7F802                  STB     [2,S]
-E3DF  3510                    PULS    X
-E3E1  3262                    LEAS    2,S
-E3E3  7EE243                  JMP     ENDS02
+E3D2  3001            POKE05          LEAX    1,X
+E3D4  BDE48B                          JSR     EXPR
+E3D7  BDE579                          JSR     TSTEOL
+E3DA  3410                            PSHS    X
+E3DC  E7F802                          STB     [2,S]
+E3DF  3510                            PULS    X
+E3E1  3262                            LEAS    2,S
+E3E3  7EE243                          JMP     ENDS02
                       ******************************
                       ******************************
-E3E6  BDE2A2          TSTFUN  JSR     SKIPSP
-E3E9  9F0A                    STX     CURSOR
-E3EB  8EE3F6                  LDX     #FUNT
-E3EE  BDE268                  JSR     FAN00
-E3F1  2502                    BCS     TSTF05
-E3F3  3406                    PSHS    D
-E3F5  39              TSTF05  RTS
+E3E6  BDE2A2          TSTFUN          JSR     SKIPSP
+E3E9  9F0A                            STX     CURSOR
+E3EB  8EE3F6                          LDX     #FUNT
+E3EE  BDE268                          JSR     FAN00
+E3F1  2502                            BCS     TSTF05
+E3F3  3406                            PSHS    D
+E3F5  39              TSTF05          RTS
                       ******************************
                       ******************************
 E3F6  555352          FUNT            FCC     "USR"
@@ -1283,7 +1283,7 @@ E62D  3510                    PULS    X
 E62F  2014                    BRA     PR08
 E631  C607            PR05    LDB     #$7
 E633  8620            PR06    LDA     #SPACE
-E635  BDE897                  JSR     PUTCHR
+E635  BDE8A8                  JSR     PUTCHR
 E638  D514                    BITB    ZONE
 E63A  26F7                    BNE     PR06
 E63C  3001            PR07    LEAX    1,X
@@ -1294,7 +1294,7 @@ E645  3001            PR08    LEAX    1,X
 E647  7EE243                  JMP     ENDS02
                       *
                       *
-E64A  BDE897          PRQ01   JSR     PUTCHR
+E64A  BDE8A8          PRQ01   JSR     PUTCHR
 E64D  A680            PRNTQS  LDA     ,X+
 E64F  8104                    CMPA    #EOL
 E651  2603                    BNE     PRQ03
@@ -1311,7 +1311,7 @@ E65F  50                      NEGB
 E660  8200                    SBCA    #0
 E662  3402                    PSHS    A
 E664  862D                    LDA     #'-
-E666  BDE897                  JSR     PUTCHR
+E666  BDE8A8                  JSR     PUTCHR
 E669  3502                    PULS    A
 E66B  8EE69A          PRN03   LDX     #PRNPT-2
 E66E  3002            PRN05   LEAX    2,X
@@ -1328,7 +1328,7 @@ E685  20F5                    BRA     PRN09
 E687  3402            PRN11   PSHS    A
 E689  8630                    LDA     #'0
 E68B  9B12                    ADDA    CHAR
-E68D  BDE897                  JSR     PUTCHR
+E68D  BDE8A8                  JSR     PUTCHR
 E690  3502                    PULS    A
 E692  8CE6A4                  CMPX    #PRNPTO
 E695  2704                    BEQ     PRN13
@@ -1350,7 +1350,7 @@ E6AE  253C                    BCS     IN11
 E6B0  3406                    PSHS    D
 E6B2  9F0A                    STX     CURSOR
 E6B4  863F            IN03    LDA     #'?
-E6B6  BDE897                  JSR     PUTCHR
+E6B6  BDE8A8                  JSR     PUTCHR
 E6B9  BDE1E4                  JSR     GETLIN
 E6BC  BDE2A2          IN05    JSR     SKIPSP
 E6BF  8104                    CMPA    #EOL
@@ -1429,205 +1429,208 @@ E756  3410                    PSHS    X
 E758  17FF4B                  LBSR    PRNT4
 E75B  3510                    PULS    X
 E75D  8620                    LDA     #SPACE
-E75F  170135                  LBSR    PUTCHR
+E75F  170146                  LBSR    PUTCHR
 E762  17F9EE                  LBSR    PUTSTR
 E765  3001                    LEAX    1,X
 E767  3410                    PSHS    X
 E769  17F9EE                  LBSR    CRLF
 E76C  3510                    PULS    X
-E76E  170101                  LBSR    TestBreak
+E76E  170112                  LBSR    TestBreak
 E771  20D4                    BRA     LIST09
 E773  3262            LIST10  LEAS    2,S
 E775  8603                    LDA     #ETX
-E777  17011D                  LBSR    PUTCHR
+E777  17012E                  LBSR    PUTCHR
 E77A  9E0A            LIST11  LDX     CURSOR
 E77C  7EE243                  JMP     ENDS02
                       ******************************
                       ******************************
-E77F                  MONITOR 
-E77F  8EDFF4                          LDX     #VECTAB+_ECHO   ; Address to a WORD
-E782  3F                              SWI
-E783  05                              FCB     OUT4HS          ; Print the WORD value
+E77F  6A6D70206D6F6E69746F72 MonJump         FCC     "jmp monitor"
+E78A  0D0A04                          FCB     CR,LF,EOL
+E78D                  MONITOR 
+E78D  8632                            LDA     #_ECHO          ; Change the ECHO flag
+E78F  8E00FF                          LDX     #$00FF          ; Local echo on input
+E792  3F                              SWI                     ; call assist09
+E793  09                              FCB     VCTRSW          ; Change vectro value
                       
-E784  8632                            LDA     #_ECHO          ; Change the ECHO flag
-E786  8EFFFF                          LDX     #$FFFF          ; No local echo on input
-E789  3F                              SWI                     ; call assist09
-E78A  09                              FCB     VCTRSW          ; Change vectro value
+E794  3F                              SWI
+E795  06                              FCB     PCRLF           ; new line
                       
-E78B  8EDFF4                          LDX     #VECTAB+_ECHO   ; Address to a WORD
-E78E  3F                              SWI
-E78F  05                              FCB     OUT4HS          ; Print the WORD value
+E796  8EE77F                          LDX     #MonJump
+E799  17F9B7                          LBSR    PUTSTR
                       
-E790  3F                              SWI
-E791  06                              FCB     PCRLF           ; new line
+E79C  86FF                            LDA     #$FF                    ; A#0 OMIT CONSOLE INIT AND STARTUP MESSAGE
+E79E  3F                              SWI
+E79F  08                              FCB     MONITR
                       
-                      ;-              SWI
-                      ;-              FCB     MONITR
-E792  6E9FFFFE                        JMP     [$FFFE]         ; Restart
-E796  16F87F                          LBRA    WARMS
+E7A0  8632                            LDA     #_ECHO          ; Change the ECHO flag
+E7A2  8EFF00                          LDX     #$FF00          ; No local echo on input
+E7A5  3F                              SWI                     ; call assist09
+E7A6  09                              FCB     VCTRSW          ; Change vectro value
+                      
+E7A7  16F86E                          LBRA    WARMS
                       ******************************
                       ******************************
-E799  4C4554          VERBT           FCC     "LET"
-E79C  04                              FCB     EOL
-E79D  E58A                            FDB     LET
+E7AA  4C4554          VERBT           FCC     "LET"
+E7AD  04                              FCB     EOL
+E7AE  E58A                            FDB     LET
                       
-E79F  4946                            FCC     "IF"
-E7A1  04                              FCB     EOL
-E7A2  E5B0                            FDB     IF
+E7B0  4946                            FCC     "IF"
+E7B2  04                              FCB     EOL
+E7B3  E5B0                            FDB     IF
                       
-E7A4  474F544F                        FCC     "GOTO"
-E7A8  04                              FCB     EOL
-E7A9  E5BC                            FDB     GOTO
-                      
-E7AB  474F535542                      FCC     "GOSUB"
-E7B0  04                              FCB     EOL
-E7B1  E5C9                            FDB     GOSUB
-                      
-E7B3  52455455524E                    FCC     "RETURN"
+E7B5  474F544F                        FCC     "GOTO"
 E7B9  04                              FCB     EOL
-E7BA  E579                            FDB     RETURN
+E7BA  E5BC                            FDB     GOTO
                       
-E7BC  504F4B45                        FCC     "POKE"
-E7C0  04                              FCB     EOL
-E7C1  E3C3                            FDB     POKE
+E7BC  474F535542                      FCC     "GOSUB"
+E7C1  04                              FCB     EOL
+E7C2  E5C9                            FDB     GOSUB
                       
-E7C3  5052494E54                      FCC     "PRINT"
-E7C8  04                              FCB     EOL
-E7C9  E5F4                            FDB     PRINT
+E7C4  52455455524E                    FCC     "RETURN"
+E7CA  04                              FCB     EOL
+E7CB  E579                            FDB     RETURN
                       
-E7CB  494E505554                      FCC     "INPUT"
-E7D0  04                              FCB     EOL
-E7D1  E6AB                            FDB     INPUT
+E7CD  504F4B45                        FCC     "POKE"
+E7D1  04                              FCB     EOL
+E7D2  E3C3                            FDB     POKE
                       
-E7D3  52454D                          FCC     "REM"
-E7D6  04                              FCB     EOL
-E7D7  E23A                            FDB     REM
+E7D4  5052494E54                      FCC     "PRINT"
+E7D9  04                              FCB     EOL
+E7DA  E5F4                            FDB     PRINT
                       
-E7D9  53544F50                        FCC     "STOP"
-E7DD  04                              FCB     EOL
-E7DE  E1BE                            FDB     END
+E7DC  494E505554                      FCC     "INPUT"
+E7E1  04                              FCB     EOL
+E7E2  E6AB                            FDB     INPUT
                       
-E7E0  454E44                          FCC     "END"
-E7E3  04                              FCB     EOL
-E7E4  E1BE                            FDB     END
+E7E4  52454D                          FCC     "REM"
+E7E7  04                              FCB     EOL
+E7E8  E23A                            FDB     REM
                       
-E7E6  52554E                          FCC     "RUN"
-E7E9  04                              FCB     EOL
-E7EA  E709                            FDB     RUN
+E7EA  53544F50                        FCC     "STOP"
+E7EE  04                              FCB     EOL
+E7EF  E1BE                            FDB     END
                       
-E7EC  4C495354                        FCC     "LIST"
-E7F0  04                              FCB     EOL
-E7F1  E717                            FDB     LIST
+E7F1  454E44                          FCC     "END"
+E7F4  04                              FCB     EOL
+E7F5  E1BE                            FDB     END
                       
-E7F3  4E4557                          FCC     "NEW"
-E7F6  04                              FCB     EOL
-E7F7  E02D                            FDB     CLEAR
+E7F7  52554E                          FCC     "RUN"
+E7FA  04                              FCB     EOL
+E7FB  E709                            FDB     RUN
                       
-E7F9  4D4F4E49544F52                  FCC     "MONITOR"
-E800  04                              FCB     EOL
-E801  E77F                            FDB     MONITOR
+E7FD  4C495354                        FCC     "LIST"
+E801  04                              FCB     EOL
+E802  E717                            FDB     LIST
                       
-E803  3F                              FCC     "?"
-E804  04                              FCB     EOL
-E805  E5F4                            FDB     PRINT
+E804  4E4557                          FCC     "NEW"
+E807  04                              FCB     EOL
+E808  E02D                            FDB     CLEAR
                       
-E807  6C6574          VERBTlowcase    FCC     "let"
-E80A  04                              FCB     EOL
-E80B  E58A                            FDB     LET
+E80A  4D4F4E49544F52                  FCC     "MONITOR"
+E811  04                              FCB     EOL
+E812  E78D                            FDB     MONITOR
                       
-E80D  6966                            FCC     "if"
-E80F  04                              FCB     EOL
-E810  E5B0                            FDB     IF
+E814  3F                              FCC     "?"
+E815  04                              FCB     EOL
+E816  E5F4                            FDB     PRINT
                       
-E812  676F746F                        FCC     "goto"
-E816  04                              FCB     EOL
-E817  E5BC                            FDB     GOTO
+E818  6C6574          VERBTlowcase    FCC     "let"
+E81B  04                              FCB     EOL
+E81C  E58A                            FDB     LET
                       
-E819  676F737562                      FCC     "gosub"
-E81E  04                              FCB     EOL
-E81F  E5C9                            FDB     GOSUB
+E81E  6966                            FCC     "if"
+E820  04                              FCB     EOL
+E821  E5B0                            FDB     IF
                       
-E821  72657475726E                    FCC     "return"
+E823  676F746F                        FCC     "goto"
 E827  04                              FCB     EOL
-E828  E579                            FDB     RETURN
+E828  E5BC                            FDB     GOTO
                       
-E82A  706F6B65                        FCC     "poke"
-E82E  04                              FCB     EOL
-E82F  E3C3                            FDB     POKE
+E82A  676F737562                      FCC     "gosub"
+E82F  04                              FCB     EOL
+E830  E5C9                            FDB     GOSUB
                       
-E831  7072696E74                      FCC     "print"
-E836  04                              FCB     EOL
-E837  E5F4                            FDB     PRINT
+E832  72657475726E                    FCC     "return"
+E838  04                              FCB     EOL
+E839  E579                            FDB     RETURN
                       
-E839  696E707574                      FCC     "input"
-E83E  04                              FCB     EOL
-E83F  E6AB                            FDB     INPUT
+E83B  706F6B65                        FCC     "poke"
+E83F  04                              FCB     EOL
+E840  E3C3                            FDB     POKE
                       
-E841  72656D                          FCC     "rem"
-E844  04                              FCB     EOL
-E845  E23A                            FDB     REM
+E842  7072696E74                      FCC     "print"
+E847  04                              FCB     EOL
+E848  E5F4                            FDB     PRINT
                       
-E847  73746F70                        FCC     "stop"
-E84B  04                              FCB     EOL
-E84C  E1BE                            FDB     END
+E84A  696E707574                      FCC     "input"
+E84F  04                              FCB     EOL
+E850  E6AB                            FDB     INPUT
                       
-E84E  656E64                          FCC     "end"
-E851  04                              FCB     EOL
-E852  E1BE                            FDB     END
+E852  72656D                          FCC     "rem"
+E855  04                              FCB     EOL
+E856  E23A                            FDB     REM
                       
-E854  72756E                          FCC     "run"
-E857  04                              FCB     EOL
-E858  E709                            FDB     RUN
+E858  73746F70                        FCC     "stop"
+E85C  04                              FCB     EOL
+E85D  E1BE                            FDB     END
                       
-E85A  6C697374                        FCC     "list"
-E85E  04                              FCB     EOL
-E85F  E717                            FDB     LIST
+E85F  656E64                          FCC     "end"
+E862  04                              FCB     EOL
+E863  E1BE                            FDB     END
                       
-E861  6E6577                          FCC     "new"
-E864  04                              FCB     EOL
-E865  E02D                            FDB     CLEAR
+E865  72756E                          FCC     "run"
+E868  04                              FCB     EOL
+E869  E709                            FDB     RUN
                       
-E867  6D6F6E69746F72                  FCC     "monitor"
-E86E  04                              FCB     EOL
-E86F  E77F                            FDB     MONITOR
+E86B  6C697374                        FCC     "list"
+E86F  04                              FCB     EOL
+E870  E717                            FDB     LIST
                       
-E871  04                              FCB     EOL
+E872  6E6577                          FCC     "new"
+E875  04                              FCB     EOL
+E876  E02D                            FDB     CLEAR
+                      
+E878  6D6F6E69746F72                  FCC     "monitor"
+E87F  04                              FCB     EOL
+E880  E78D                            FDB     MONITOR
+                      
+E882  04                              FCB     EOL
                       ******************************
                       
                       *-----------------------------
-E872  3403            TestBreak       PSHS    A,CC
+E883  3403            TestBreak       PSHS    A,CC
                                       * CIDTA - RETURN CONSOLE INPUT CHARACTER
                                       * OUTPUT: C=0 IF NO DATA READY, C=1 A=CHARACTER
                                       * U VOLATILE
-E874  AD9DF760                        JSR     [VECTAB+_CIDTA,PCR]     ; read CONSOLE input
-E878  2404                            BCC     NoBreak                 ; Did not get a char
-E87A  8103                            CMPA    #ETX                    ; <ctrl>-C
-E87C  2703                            BEQ     GotBreak                ; Got it
-E87E  3503            NoBreak         PULS    A,CC                    ; Restore A & CC
-E880  39                              RTS
+E885  AD9DF74F                        JSR     [VECTAB+_CIDTA,PCR]     ; read CONSOLE input
+E889  2404                            BCC     NoBreak                 ; Did not get a char
+E88B  8103                            CMPA    #ETX                    ; <ctrl>-C
+E88D  2703                            BEQ     GotBreak                ; Got it
+E88F  3503            NoBreak         PULS    A,CC                    ; Restore A & CC
+E891  39                              RTS
                       
-E881  3503            GotBreak        PULS    A,CC                    ; Clear stack
-E883  16F930                          LBRA    BREAKERR                ; Got BREAK
+E892  3503            GotBreak        PULS    A,CC                    ; Clear stack
+E894  16F91F                          LBRA    BREAKERR                ; Got BREAK
                       
                       *-----------------------------
-E886                  GETCHR
-E886  3440                            PSHS    U
-E888                  tstchr
+E897                  GETCHR
+E897  3440                            PSHS    U
+E899                  tstchr
                                       * CIDTA - RETURN CONSOLE INPUT CHARACTER
                                       * OUTPUT: C=0 IF NO DATA READY, C=1 A=CHARACTER
                                       * U VOLATILE
-E888  AD9DF74C                        JSR     [VECTAB+_CIDTA,PCR]     ; read CONSOLE input
-E88C  24FA                            BCC     tstchr                  ; Did not get a char
-E88E  8103                            CMPA    #ETX                    ; <ctrl>-C
-E890  1027F922                        LBEQ    BREAKERR                ; Got BREAK
-E894  3540                            PULS    U
-E896  39                              RTS
+E899  AD9DF73B                        JSR     [VECTAB+_CIDTA,PCR]     ; read CONSOLE input
+E89D  24FA                            BCC     tstchr                  ; Did not get a char
+E89F  8103                            CMPA    #ETX                    ; <ctrl>-C
+E8A1  1027F911                        LBEQ    BREAKERR                ; Got BREAK
+E8A5  3540                            PULS    U
+E8A7  39                              RTS
                       
                       *-----------------------------
-E897                  PUTCHR
-E897  AD9DF743                        JSR     [VECTAB+_CODTA,PCR]     ; write CONSOLE output
-E89B                  INTEEE          EQU     *
-E89B  39                              RTS
+E8A8                  PUTCHR
+E8A8  AD9DF732                        JSR     [VECTAB+_CODTA,PCR]     ; write CONSOLE output
+E8AC                  INTEEE          EQU     *
+E8AC  39                              RTS
                       *-----------------------------
                       
                       ******************************
@@ -1680,7 +1683,7 @@ E89B  39                              RTS
                       *---------------------------------------------------------------------
                       *               MONITOR extended ROM code
                       *---------------------------------------------------------------------
-E89C                                  INCLUDE         /extend_a09.asm/
+E8AD                                  INCLUDE         /extend_a09.asm/
                       ********************************************************************************
                       * 
                       * This is a extension to Assist09 ROM
@@ -1701,21 +1704,21 @@ F006  AD9DEFD2                        JSR     [VECTAB+_COON,PCR]      ; READY CO
 F00A  308DEFF2                        LEAX    HELLO,PCR               ; Get address to EPROM HELLO
 F00E  3F                              SWI                             ; a09
 F00F  03                              FCB     PDATA                   ; PRINT CR,LF STRING
-F010  308D00BB                        LEAX    EXTEND09,PCR            ; Extended SIGNON EYE-CATCHER
+F010  308D00C3                        LEAX    EXTEND09,PCR            ; Extended SIGNON EYE-CATCHER
 F014  3F                              SWI                             ; a09
 F015  02                              FCB     PDATA1                  ; PRINT STRING
                       
 F016  8D23                            BSR     CHK309                  ; Check if 6809 | 6309
 F018  2706                            BEQ     lbl6809
-F01A  308D00D2                        LEAX    HD6309,PCR              ; cpu 63C09
+F01A  308D00DA                        LEAX    HD6309,PCR              ; cpu 63C09
 F01E  2004                            BRA     lblcpuprt
 F020                  lbl6809
-F020  308D00C5                        LEAX    MC6809,PCR              ; cpu 6809
+F020  308D00CD                        LEAX    MC6809,PCR              ; cpu 6809
 F024                  lblcpuprt
 F024  3F                              SWI                             ; a09
 F025  02                              FCB     PDATA1                  ; PRINT STRING
                       
-F026  308D00CE                        LEAX    CMDTBLext,PCR           ; Extend CMD Table, with lower caps
+F026  308D00D6                        LEAX    CMDTBLext,PCR           ; Extend CMD Table, with lower caps
 F02A  8602                            LDA     #_CMDL1                 ; CMDTL #2
 F02C  3F                              SWI
 F02D  09                              FCB     VCTRSW
@@ -1771,7 +1774,7 @@ F043                  \1              *
                       *               Simple Memory test
                       *               To find memory Size/End
                       *       --------------------------------
-F043  8EF08E                          LDX     #MemTst                 ; Get Memory Test text
+F043  8EF096                          LDX     #MemTst                 ; Get Memory Test text
 F046  17F10A                          LBSR    PUTSTR                  ; Console write str [direct io]
                       
 F049  108E0000                        LDY     #RAM                    ; First Memadr to test
@@ -1794,9 +1797,9 @@ F063  C53F                            BITB    #$3F
 F065  260A                            BNE     NoPrt
                       
 F067  860D                            LDA     #CR
-F069  BDE897                          JSR     PUTCHR                  ; Jump back on line
+F069  BDE8A8                          JSR     PUTCHR                  ; Jump back on line
 F06C  1F20                            TFR     Y,D
-F06E  170052                          LBSR    WriteHexWord            ; Write the Testaddress
+F06E  17005A                          LBSR    WriteHexWord            ; Write the Testaddress
                       
                       ;-              LDB     PIA02_DataA             ; get privous Status....
                       ;-              INCB                            ; toggel status bit...
@@ -1807,30 +1810,23 @@ F074  1083BFFF                        CMPD    #MAXRAM                 ; Max memo
 F078  2702                            BEQ     NoMem                   ; At end of memory
 F07A  20D1                            BRA     TestMem                 ; Test next address
 F07C                  NoMem                                           ; No More MEM
-F07C  8EF09E                          LDX     #MemEnd                 ; Print that we ended the mem test
-F07F  17F0D1                          LBSR    PUTSTR                  ; Console write str [direct io]
+F07C  860D                            LDA     #CR
+F07E  BDE8A8                          JSR     PUTCHR                  ; Jump back on line
+F081  1F20                            TFR     Y,D
+F083  170045                          LBSR    WriteHexWord            ; Write the Testaddress
+F086  8EF0A4                          LDX     #MemEnd                 ; Print that we ended the mem test
+F089  17F0C7                          LBSR    PUTSTR                  ; Console write str [direct io]
                       
                       
-                      ;-              LDX     #VECTAB+_ECHO   ; Address to a WORD
-                      ;-              SWI
-                      ;-              FCB     OUT4HS          ; Print the WORD value
-F082  8632                            LDA     #_ECHO          ; Change the ECHO flag
-F084  8E0000                          LDX     #$0000          ; No local echo on input
-F087  3F                              SWI                     ; call assist09
-F088  09                              FCB     VCTRSW          ; Change vectro value
-                      ;-              LDX     #VECTAB+_ECHO   ; Address to a WORD
-                      ;-              SWI
-                      ;-              FCB     OUT4HS          ; Print the WORD value
-F089  3F                              SWI
-F08A  06                              FCB     PCRLF           ; new line
+F08C  8632                            LDA     #_ECHO          ; Change the ECHO flag
+F08E  8EFF00                          LDX     #$FF00          ; No local echo on input
+F091  3F                              SWI                     ; call assist09
+F092  09                              FCB     VCTRSW          ; Change vectro value
                       
-                      ;-              LDD     #MAXRAM         ; Set the RAM end address
-                      ;-              STD     RAMSIZE         
-F08B  16EF88                          LBRA    BASIC           ; Jump to BASIC now
+F093  16EF80                          LBRA    BASIC           ; Jump to BASIC now
                       
-F08E  0A0D30303030204D656D6F727904 MemTst          FCB     LF,CR,"0000 Memory",EOT
-F09C  0D04            MemBck          FCB     CR,EOT
-F09E  0D0A4F4B2104    MemEnd          FCB     CR,LF,"OK!",EOT
+F096  0A0D30303030204D656D6F727904 MemTst          FCB     LF,CR,"0000 Memory",EOT
+F0A4  0D0A4F4B210D0A04 MemEnd          FCB     CR,LF,"OK!",CR,LF,EOT
                       
                       ***********************************************************************
                       *
@@ -1845,17 +1841,17 @@ F09E  0D0A4F4B2104    MemEnd          FCB     CR,LF,"OK!",EOT
                       *  Destroy:
                       ***********************************************************************
                       
-F0A4                                  Anrop   /WriteNibel/
-F0A4                  \1              *
+F0AC                                  Anrop   /WriteNibel/
+F0AC                  \1              *
                                       EXPORT  \1
-F0A4  3402                            PSHS    A
-F0A6  840F                            ANDA    #$0F            ; Mask out the nibel
-F0A8  8B90                            ADDA    #$90            ; Convert it to ascii char
-F0AA  19                              DAA
-F0AB  8940                            ADCA    #$40
-F0AD  19                              DAA
-F0AE  17F7E6                          LBSR    PUTCHR          ; Write it on the console
-F0B1  3582                            PULS    A,PC
+F0AC  3402                            PSHS    A
+F0AE  840F                            ANDA    #$0F            ; Mask out the nibel
+F0B0  8B90                            ADDA    #$90            ; Convert it to ascii char
+F0B2  19                              DAA
+F0B3  8940                            ADCA    #$40
+F0B5  19                              DAA
+F0B6  17F7EF                          LBSR    PUTCHR          ; Write it on the console
+F0B9  3582                            PULS    A,PC
                       
                       ***********************************************************************
                       *
@@ -1870,19 +1866,19 @@ F0B1  3582                            PULS    A,PC
                       *  Destroy:
                       ***********************************************************************
                       
-F0B3                                  Anrop   /WriteHexByte/
-F0B3                  \1              *
+F0BB                                  Anrop   /WriteHexByte/
+F0BB                  \1              *
                                       EXPORT  \1
-F0B3  3403                            PSHS    CC,A
-F0B5  3402                            PSHS    A
-F0B7  44                              LSRA                    ; Shift
-F0B8  44                              LSRA                    ;   down
-F0B9  44                              LSRA                    ;     high
-F0BA  44                              LSRA                    ;       nibel
-F0BB  8DE7                            BSR     WriteNibel      ; Write High Nibel
-F0BD  3502                            PULS    A
-F0BF  8DE3                            BSR     WriteNibel      ; Write low Nibel
-F0C1  3583                            PULS    CC,A,PC
+F0BB  3403                            PSHS    CC,A
+F0BD  3402                            PSHS    A
+F0BF  44                              LSRA                    ; Shift
+F0C0  44                              LSRA                    ;   down
+F0C1  44                              LSRA                    ;     high
+F0C2  44                              LSRA                    ;       nibel
+F0C3  8DE7                            BSR     WriteNibel      ; Write High Nibel
+F0C5  3502                            PULS    A
+F0C7  8DE3                            BSR     WriteNibel      ; Write low Nibel
+F0C9  3583                            PULS    CC,A,PC
                       
                       ***********************************************************************
                       *
@@ -1897,128 +1893,128 @@ F0C1  3583                            PULS    CC,A,PC
                       *  Destroy:
                       ***********************************************************************
                       
-F0C3                                  Anrop   /WriteHexWord/
-F0C3                  \1              *
+F0CB                                  Anrop   /WriteHexWord/
+F0CB                  \1              *
                                       EXPORT  \1
-F0C3  3407                            PSHS    CC,A,B
-F0C5  17FFEB                          LBSR    WriteHexByte            ; Write High Byte
-F0C8  1F98                            TFR     B,A
-F0CA  17FFE6                          LBSR    WriteHexByte            ; Write Low Byte
-F0CD  3587                            PULS    CC,A,B,PC
+F0CB  3407                            PSHS    CC,A,B
+F0CD  17FFEB                          LBSR    WriteHexByte            ; Write High Byte
+F0D0  1F98                            TFR     B,A
+F0D2  17FFE6                          LBSR    WriteHexByte            ; Write Low Byte
+F0D5  3587                            PULS    CC,A,B,PC
                       
                       *===============================================================================
                       *               Data area
                       *===============================================================================
-F0CF  2C205769746820524F4D20457874656E73696F6E206F6E20 EXTEND09        FCC     /, With ROM Extension on /
-F0E7  0400                            FCB     EOT,NUL         ; SIGNON EYE-CATCHER
-F0E9  4D433638303904  MC6809          FCB     "MC6809",EOT
-F0F0  4844363343303904 HD6309          FCB     "HD63C09",EOT
+F0D7  2C205769746820524F4D20457874656E73696F6E206F6E20 EXTEND09        FCC     /, With ROM Extension on /
+F0EF  0400                            FCB     EOT,NUL         ; SIGNON EYE-CATCHER
+F0F1  4D433638303904  MC6809          FCB     "MC6809",EOT
+F0F8  4844363343303904 HD6309          FCB     "HD63C09",EOT
                       
                       * THIS IS a fix of DEFAULT COMMAND LIST ENTRY. Added lower caps fix
                       
-F0F8                  CMDTBLext       EQU     *               ; MONITOR extended COMMAND TABLE
-F0F8  04                              FCB     4
-F0F9  62                              FCC     /b/             ; 'BREAKPOINT' COMMAND
-F0FA  0DF1                            FDB     CBKPT-*
-F0FC  04                              FCB     4
-F0FD  42                              FCC     /B/             ; 'BREAKPOINT' COMMAND
-F0FE  0DED                            FDB     CBKPT-*
+F100                  CMDTBLext       EQU     *               ; MONITOR extended COMMAND TABLE
 F100  04                              FCB     4
-F101  63                              FCC     /c/             ; 'CALL' COMMAND
-F102  0CB7                            FDB     CCALL-*
+F101  62                              FCC     /b/             ; 'BREAKPOINT' COMMAND
+F102  0DE9                            FDB     CBKPT-*
 F104  04                              FCB     4
-F105  43                              FCC     /C/             ; 'CALL' COMMAND
-F106  0CB3                            FDB     CCALL-*
+F105  42                              FCC     /B/             ; 'BREAKPOINT' COMMAND
+F106  0DE5                            FDB     CBKPT-*
 F108  04                              FCB     4
-F109  64                              FCC     /d/             ; 'DISPLAY' COMMAND
-F10A  0D39                            FDB     CDISP-*
+F109  63                              FCC     /c/             ; 'CALL' COMMAND
+F10A  0CAF                            FDB     CCALL-*
 F10C  04                              FCB     4
-F10D  44                              FCC     /D/             ; 'DISPLAY' COMMAND
-F10E  0D35                            FDB     CDISP-*
+F10D  43                              FCC     /C/             ; 'CALL' COMMAND
+F10E  0CAB                            FDB     CCALL-*
 F110  04                              FCB     4
-F111  65                              FCC     /e/             ; 'ENCODE' COMMAND
-F112  0E37                            FDB     CENCDE-*
+F111  64                              FCC     /d/             ; 'DISPLAY' COMMAND
+F112  0D31                            FDB     CDISP-*
 F114  04                              FCB     4
-F115  45                              FCC     /E/             ; 'ENCODE' COMMAND
-F116  0E33                            FDB     CENCDE-*
+F115  44                              FCC     /D/             ; 'DISPLAY' COMMAND
+F116  0D2D                            FDB     CDISP-*
 F118  04                              FCB     4
-F119  67                              FCC     /g/             ; 'GO' COMMAND
-F11A  0C66                            FDB     CGO-*
+F119  65                              FCC     /e/             ; 'ENCODE' COMMAND
+F11A  0E2F                            FDB     CENCDE-*
 F11C  04                              FCB     4
-F11D  47                              FCC     /G/             ; 'GO' COMMAND
-F11E  0C62                            FDB     CGO-*
+F11D  45                              FCC     /E/             ; 'ENCODE' COMMAND
+F11E  0E2B                            FDB     CENCDE-*
 F120  04                              FCB     4
-F121  6C                              FCC     /l/             ; 'LOAD' COMMAND
-F122  0D6D                            FDB     CLOAD-*
+F121  67                              FCC     /g/             ; 'GO' COMMAND
+F122  0C5E                            FDB     CGO-*
 F124  04                              FCB     4
-F125  4C                              FCC     /L/             ; 'LOAD' COMMAND
-F126  0D69                            FDB     CLOAD-*
+F125  47                              FCC     /G/             ; 'GO' COMMAND
+F126  0C5A                            FDB     CGO-*
 F128  04                              FCB     4
-F129  6D                              FCC     /m/             ; 'MEMORY' COMMAND
-F12A  0C99                            FDB     CMEM-*
+F129  6C                              FCC     /l/             ; 'LOAD' COMMAND
+F12A  0D65                            FDB     CLOAD-*
 F12C  04                              FCB     4
-F12D  4D                              FCC     /M/             ; 'MEMORY' COMMAND
-F12E  0C95                            FDB     CMEM-*
+F12D  4C                              FCC     /L/             ; 'LOAD' COMMAND
+F12E  0D61                            FDB     CLOAD-*
 F130  04                              FCB     4
-F131  6E                              FCC     /n/             ; 'NULLS' COMMAND
-F132  0D85                            FDB     CNULLS-*
+F131  6D                              FCC     /m/             ; 'MEMORY' COMMAND
+F132  0C91                            FDB     CMEM-*
 F134  04                              FCB     4
-F135  4E                              FCC     /N/             ; 'NULLS' COMMAND
-F136  0D81                            FDB     CNULLS-*
+F135  4D                              FCC     /M/             ; 'MEMORY' COMMAND
+F136  0C8D                            FDB     CMEM-*
 F138  04                              FCB     4
-F139  6F                              FCC     /o/             ; 'OFFSET' COMMAND
-F13A  0D8E                            FDB     COFFS-*
+F139  6E                              FCC     /n/             ; 'NULLS' COMMAND
+F13A  0D7D                            FDB     CNULLS-*
 F13C  04                              FCB     4
-F13D  4F                              FCC     /O/             ; 'OFFSET' COMMAND
-F13E  0D8A                            FDB     COFFS-*
+F13D  4E                              FCC     /N/             ; 'NULLS' COMMAND
+F13E  0D79                            FDB     CNULLS-*
 F140  04                              FCB     4
-F141  70                              FCC     /p/             ; 'PUNCH' COMMAND
-F142  0D2F                            FDB     CPUNCH-*
+F141  6F                              FCC     /o/             ; 'OFFSET' COMMAND
+F142  0D86                            FDB     COFFS-*
 F144  04                              FCB     4
-F145  50                              FCC     /P/             ; 'PUNCH' COMMAND
-F146  0D2B                            FDB     CPUNCH-*
+F145  4F                              FCC     /O/             ; 'OFFSET' COMMAND
+F146  0D82                            FDB     COFFS-*
 F148  04                              FCB     4
-F149  72                              FCC     /r/             ; 'REGISTERS' COMMAND
-F14A  0B00                            FDB     CREG-*
+F149  70                              FCC     /p/             ; 'PUNCH' COMMAND
+F14A  0D27                            FDB     CPUNCH-*
 F14C  04                              FCB     4
-F14D  52                              FCC     /R/             ; 'REGISTERS' COMMAND
-F14E  0AFC                            FDB     CREG-*
+F14D  50                              FCC     /P/             ; 'PUNCH' COMMAND
+F14E  0D23                            FDB     CPUNCH-*
 F150  04                              FCB     4
-F151  73                              FCC     /s/             ; 'STLEVEL' COMMAND
-F152  0D6A                            FDB     CSTLEV-*
+F151  72                              FCC     /r/             ; 'REGISTERS' COMMAND
+F152  0AF8                            FDB     CREG-*
 F154  04                              FCB     4
-F155  53                              FCC     /S/             ; 'STLEVEL' COMMAND
-F156  0D66                            FDB     CSTLEV-*
+F155  52                              FCC     /R/             ; 'REGISTERS' COMMAND
+F156  0AF4                            FDB     CREG-*
 F158  04                              FCB     4
-F159  74                              FCC     /t/             ; 'TRACE' COMMAND
-F15A  0D4A                            FDB     CTRACE-*
+F159  73                              FCC     /s/             ; 'STLEVEL' COMMAND
+F15A  0D62                            FDB     CSTLEV-*
 F15C  04                              FCB     4
-F15D  54                              FCC     /T/             ; 'TRACE' COMMAND
-F15E  0D46                            FDB     CTRACE-*
+F15D  53                              FCC     /S/             ; 'STLEVEL' COMMAND
+F15E  0D5E                            FDB     CSTLEV-*
 F160  04                              FCB     4
-F161  76                              FCC     /v/             ; 'VERIFY' COMMAND
-F162  0D3F                            FDB     CVER-*
+F161  74                              FCC     /t/             ; 'TRACE' COMMAND
+F162  0D42                            FDB     CTRACE-*
 F164  04                              FCB     4
-F165  56                              FCC     /V/             ; 'VERIFY' COMMAND
-F166  0D3B                            FDB     CVER-*
+F165  54                              FCC     /T/             ; 'TRACE' COMMAND
+F166  0D3E                            FDB     CTRACE-*
 F168  04                              FCB     4
-F169  77                              FCC     /w/             ; 'WINDOW' COMMAND
-F16A  0CD4                            FDB     CWINDO-*
+F169  76                              FCC     /v/             ; 'VERIFY' COMMAND
+F16A  0D37                            FDB     CVER-*
 F16C  04                              FCB     4
-F16D  57                              FCC     /W/             ; 'WINDOW' COMMAND
-F16E  0CD0                            FDB     CWINDO-*
-F170  08                              FCB     8
-F171  6261736963                      FCC     /basic/         ; Init and jump to Tiny Basic
-F176  FECD                            FDB     BASICINIT-*
+F16D  56                              FCC     /V/             ; 'VERIFY' COMMAND
+F16E  0D33                            FDB     CVER-*
+F170  04                              FCB     4
+F171  77                              FCC     /w/             ; 'WINDOW' COMMAND
+F172  0CCC                            FDB     CWINDO-*
+F174  04                              FCB     4
+F175  57                              FCC     /W/             ; 'WINDOW' COMMAND
+F176  0CC8                            FDB     CWINDO-*
 F178  08                              FCB     8
-F179  4241534943                      FCC     /BASIC/         ; Init and jump to Tiny Basic
+F179  6261736963                      FCC     /basic/         ; Init and jump to Tiny Basic
 F17E  FEC5                            FDB     BASICINIT-*
-F180  FF                              FCB     -1              ; END, CONTINUE WITH THE SECOND
+F180  08                              FCB     8
+F181  4241534943                      FCC     /BASIC/         ; Init and jump to Tiny Basic
+F186  FEBD                            FDB     BASICINIT-*
+F188  FF                              FCB     -1              ; END, CONTINUE WITH THE SECOND
                       
                       *---------------------------------------------------------------------
                       *               MONITOR code
                       *---------------------------------------------------------------------
-F181                                  INCLUDE         /assist09.asm/
+F189                                  INCLUDE         /assist09.asm/
                       *************************************
                       * COPYRIGHT (C) MOTOROLA, INC. 1979 *
                       *************************************
@@ -3799,4 +3795,4 @@ FFF8  FFE4                            FDB     IRQ                     ; INTERRUP
 FFFA  FFE8                            FDB     SWI                     ; SOFTWARE INTERRUPT
 FFFC  FFEC                            FDB     NMI                     ; NON-MASKABLE INTERRUPT
 FFFE  F837                            FDB     RESET                   ; RESTART
-F181                                  END
+F189                                  END

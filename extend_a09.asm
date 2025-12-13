@@ -118,29 +118,23 @@ NoPrt		STY	RAMSIZE			; Save current good size
 		BEQ	NoMem			; At end of memory
 		BRA	TestMem			; Test next address
 NoMem						; No More MEM
+		LDA	#CR
+		JSR	PUTCHR			; Jump back on line
+		TFR	Y,D
+		LBSR	WriteHexWord		; Write the Testaddress
 		LDX	#MemEnd			; Print that we ended the mem test
 		LBSR	PUTSTR			; Console write str [direct io]
 
 
-;-		LDX	#VECTAB+_ECHO	; Address to a WORD
-;-		SWI
-;-		FCB	OUT4HS		; Print the WORD value
 		LDA	#_ECHO		; Change the ECHO flag
-		LDX	#$0000		; No local echo on input
+		LDX	#$FF00		; No local echo on input
 		SWI			; call assist09
 		FCB	VCTRSW		; Change vectro value
-;-		LDX	#VECTAB+_ECHO	; Address to a WORD
-;-		SWI
-;-		FCB	OUT4HS		; Print the WORD value
-		SWI
-		FCB	PCRLF		; new line
 
-;-		LDD	#MAXRAM		; Set the RAM end address
-;-		STD	RAMSIZE		
 		LBRA	BASIC		; Jump to BASIC now
 
 MemTst		FCB	LF,CR,"0000 Memory",EOT
-MemEnd		FCB	CR,LF,"OK!",EOT
+MemEnd		FCB	CR,LF,"OK!",CR,LF,EOT
 
 ***********************************************************************
 *

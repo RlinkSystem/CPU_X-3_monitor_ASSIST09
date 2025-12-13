@@ -1125,26 +1125,29 @@ LIST11  LDX     CURSOR
         JMP     ENDS02
 ******************************
 ******************************
+MonJump		FCC	"jmp monitor"
+		FCB	CR,LF,EOL
 MONITOR	
-		LDX	#VECTAB+_ECHO	; Address to a WORD
-		SWI
-		FCB	OUT4HS		; Print the WORD value
-
 		LDA	#_ECHO		; Change the ECHO flag
-		LDX	#$FFFF		; No local echo on input
+		LDX	#$00FF		; Local echo on input
 		SWI			; call assist09
 		FCB	VCTRSW		; Change vectro value
-
-		LDX	#VECTAB+_ECHO	; Address to a WORD
-		SWI
-		FCB	OUT4HS		; Print the WORD value
 
 		SWI
 		FCB	PCRLF		; new line
 
-;-		SWI
-;-		FCB	MONITR
-		JMP	[$FFFE]		; Restart
+		LDX     #MonJump
+		LBSR    PUTSTR
+
+		LDA	#$FF			; A#0 OMIT CONSOLE INIT AND STARTUP MESSAGE
+		SWI
+		FCB	MONITR
+
+		LDA	#_ECHO		; Change the ECHO flag
+		LDX	#$FF00		; No local echo on input
+		SWI			; call assist09
+		FCB	VCTRSW		; Change vectro value
+
 		LBRA	WARMS
 ******************************
 ******************************
